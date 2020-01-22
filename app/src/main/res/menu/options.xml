@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <item
+    android:id="@+id/build"
+    android:title="@string/build"
+    android:icon="@drawable/ic_build"
+    app:showAsAction="always"/>
+
+  <item
+    android:id="@+id/reset"
+    android:title="@string/reset"
+    android:icon="@drawable/ic_replay"
+    app:showAsAction="always"/>
+
+  <item
+    android:id="@+id/play"
+    android:title="@string/run"
+    android:icon="@drawable/ic_play"
+    app:showAsAction="always"/>
+
+  <item
+    android:id="@+id/pause"
+    android:title="@string/pause"
+    android:icon="@drawable/ic_pause"
+    app:showAsAction="always"/>
+
+</menu>
