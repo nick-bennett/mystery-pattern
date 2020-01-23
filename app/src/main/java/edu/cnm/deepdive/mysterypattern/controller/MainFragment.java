@@ -18,7 +18,6 @@ import edu.cnm.deepdive.mysterypattern.model.Terrain;
 import edu.cnm.deepdive.mysterypattern.view.PatternView;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,6 +25,9 @@ public class MainFragment extends Fragment implements View.OnTouchListener {
 
   private static final int NUM_VERTICES = 3;
   private static final double JUMP_FRACTION = 0.5;
+  private static final int TERRAIN_UPDATES_PER_CYCLE = 25;
+  private static final int TERRAIN_UPDATE_INTERVAL = 5;
+  private static final int VIEW_UPDATE_INTERVAL = 25;
 
   private List<Position> vertices;
   private PatternView patternView;
@@ -107,7 +109,7 @@ public class MainFragment extends Fragment implements View.OnTouchListener {
       patternView.setTerrain(terrain);
     }
     refresh = new Timer();
-    refresh.schedule(new Refresher(), 50, 50);
+    refresh.schedule(new Refresher(), VIEW_UPDATE_INTERVAL, VIEW_UPDATE_INTERVAL);
     runner = new Runner();
     runner.start();
     getActivity().invalidateOptionsMenu();
@@ -163,12 +165,12 @@ public class MainFragment extends Fragment implements View.OnTouchListener {
     @Override
     public void run() {
       while (mode == Mode.JUMPING) {
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < TERRAIN_UPDATES_PER_CYCLE; i++) {
           terrain.update();
           patternView.update();
         }
         try {
-          sleep(5);
+          sleep(TERRAIN_UPDATE_INTERVAL);
         } catch (InterruptedException expected) {
           // Do nothing; get on with your life.
         }

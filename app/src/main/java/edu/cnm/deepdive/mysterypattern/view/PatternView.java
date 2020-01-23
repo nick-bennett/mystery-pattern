@@ -10,7 +10,9 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import edu.cnm.deepdive.mysterypattern.R;
 import edu.cnm.deepdive.mysterypattern.controller.MainFragment.Mode;
 import edu.cnm.deepdive.mysterypattern.model.Position;
@@ -26,6 +28,10 @@ public class PatternView extends View {
   private Paint paint;
   private RectF dest;
   private Mode mode;
+  @ColorInt
+  private int vertexColor;
+  @ColorInt
+  private int trajectoryColor;
 
   {
     setWillNotDraw(false);
@@ -50,12 +56,19 @@ public class PatternView extends View {
     super(context, attrs, defStyleAttr, defStyleRes);
   }
 
+  @Override
+  protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
+    vertexColor = ContextCompat.getColor(getContext(), R.color.colorAccent);
+    trajectoryColor = ContextCompat.getColor(getContext(), R.color.colorPrimaryDark);
+  }
+
   @SuppressLint("CanvasSize")
   @Override
   protected void onDraw(Canvas canvas) {
     if (mode == Mode.BUILDING || mode == Mode.READY) {
       if (vertices != null) {
-        paint.setColor(Color.BLUE);
+        paint.setColor(vertexColor);
         for (Position position : vertices) {
           canvas.drawCircle((float) position.getX(), (float) position.getY(),
               getContext().getResources().getDimension(R.dimen.vertex_radius), paint);
@@ -115,7 +128,7 @@ public class PatternView extends View {
       createBitmap();
     }
     if (terrain != null) {
-      paint.setColor(Color.BLACK);
+      paint.setColor(trajectoryColor);
       for (Position position : terrain.getCurrent()) {
         canvas.drawPoint((float) position.getX(), (float) position.getY(), paint);
       }
